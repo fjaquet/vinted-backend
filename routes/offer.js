@@ -1,0 +1,17 @@
+const express = require("express");
+const fileUpload = require("express-fileupload");
+const router = express.Router();
+
+const {
+  publishOffer,
+  updateOffer,
+  deleteOffer,
+} = require("../controllers/offerController");
+
+const isAuthenticated = require("../midllewares/isAuthenticated");
+
+router.post("/publish", isAuthenticated, fileUpload(), publishOffer);
+router.put("/:id", isAuthenticated, fileUpload(), updateOffer);
+router.delete("/:id", isAuthenticated, deleteOffer);
+
+module.exports = router;
