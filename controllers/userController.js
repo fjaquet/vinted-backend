@@ -34,9 +34,9 @@ const signup = async (req, res) => {
         newUser._id,
         accountUpdated,
       );
-      return res.status(401).json(userWithPhoto);
+      return res.status(201).json(userWithPhoto);
     } else {
-      return res.status(401).json(newUser);
+      return res.status(201).json(newUser);
     }
   } catch (error) {
     if (error.message.includes("email_1 dup key")) {
