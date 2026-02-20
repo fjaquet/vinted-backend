@@ -2,6 +2,8 @@ const {
   createOfferInDB,
   updateOfferInDB,
   deleteOfferInDB,
+  findOffersInDB,
+  findOfferByIdInDB,
 } = require("../services/offerService");
 
 const { uploadImage, deleteImage } = require("../services/cloudinaryService");
@@ -118,4 +120,36 @@ const deleteOffer = async (req, res) => {
   }
 };
 
-module.exports = { publishOffer, updateOffer, deleteOffer };
+const getOffers = async (req, res) => {
+  try {
+    const result = await findOffersInDB(req.query);
+    return res.json(result);
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};
+
+const getOfferById = async (req, res) => {
+  try {
+    if (req.params.id) {
+      const offer = await findOfferByIdInDB(req.params.id);
+      if (offer) {
+        return res.json(offer);
+      } else {
+        return res.status(400).json({ message: "Offer not found" });
+      }
+    } else {
+      return res.status(400).json({ message: "Offer if missing" });
+    }
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};
+
+module.exports = {
+  publishOffer,
+  updateOffer,
+  deleteOffer,
+  getOffers,
+  getOfferById,
+};
