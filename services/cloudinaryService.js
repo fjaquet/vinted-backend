@@ -26,7 +26,6 @@ const deleteImage = async (offerId, parent_folder) => {
     await cloudinary.api.delete_resources_by_prefix(prefix);
     await cloudinary.api.delete_folder(folderPath);
   } catch (error) {
-    console.log("error => ", error);
     throw error;
   }
 };

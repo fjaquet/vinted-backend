@@ -18,14 +18,12 @@ const signup = async (req, res) => {
   try {
     const newUser = await createUser(req.body);
     if (req.files.picture) {
-      console.log(newUser._id);
       const profilePicture = await uploadImage(
         newUser._id,
         cloudinaryParentFolder,
         req.files.picture,
       );
 
-      console.log(profilePicture);
       const accountUpdated = {
         username: newUser.account.username,
         avatar: profilePicture,
