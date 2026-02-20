@@ -8,7 +8,7 @@ const {
   deleteOffer,
 } = require("../controllers/offerController");
 
-const isAuthenticated = require("../midllewares/isAuthenticated");
+const isAuthenticated = require("../middlewares/isAuthenticated");
 
 router.post("/publish", isAuthenticated, fileUpload(), publishOffer);
 router.put("/:id", isAuthenticated, fileUpload(), updateOffer);
