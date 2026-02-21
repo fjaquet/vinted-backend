@@ -14,7 +14,7 @@ const Offer = require("../models/Offer");
 
 const cloudinaryParentFolder = "vinted/offers";
 
-const publishOffer = async (req, res) => {
+const publishOffer = async (req, res, next) => {
   if (
     !req.body.product_name ||
     !req.body.product_description ||
@@ -76,11 +76,11 @@ const publishOffer = async (req, res) => {
       offerWithImage,
     });
   } catch (error) {
-    return res.status(500).json(error.message);
+    next(error);
   }
 };
 
-const updateOffer = async (req, res) => {
+const updateOffer = async (req, res, next) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
       return res.status(400).json({ message: "Invalid Id format" });
@@ -102,11 +102,11 @@ const updateOffer = async (req, res) => {
       product_image: offerUpdated.product_image,
     });
   } catch (error) {
-    return res.status(500).json(error.message);
+    next(error);
   }
 };
 
-const deleteOffer = async (req, res) => {
+const deleteOffer = async (req, res, next) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
       return res.status(400).json({ message: "Invalid Id format" });
@@ -123,20 +123,20 @@ const deleteOffer = async (req, res) => {
       return res.status(400).json({ message: "Offer not found" });
     }
   } catch (error) {
-    return res.status(500).json(error.message);
+    next(error);
   }
 };
 
-const getOffers = async (req, res) => {
+const getOffers = async (req, res, next) => {
   try {
     const result = await findOffersInDB(req.query);
     return res.json(result);
   } catch (error) {
-    return res.status(500).json(error.message);
+    next(error);
   }
 };
 
-const getOfferById = async (req, res) => {
+const getOfferById = async (req, res, next) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
       return res.status(400).json({ message: "Invalid Id format" });
@@ -149,7 +149,7 @@ const getOfferById = async (req, res) => {
       return res.status(400).json({ message: "Offer not found" });
     }
   } catch (error) {
-    return res.status(500).json(error.message);
+    next(error);
   }
 };
 
