@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const SHA256 = require("crypto-js/sha256");
 const encBase64 = require("crypto-js/enc-base64");
 const uid2 = require("uid2");
@@ -6,12 +5,6 @@ const uid2 = require("uid2");
 const User = require("../models/User");
 
 const createUser = async (data) => {
-  if (!data.username) {
-    throw { message: "Username must be filled" };
-  }
-  if (!data.email) {
-    throw { message: "Email must be filled" };
-  }
   const password = data.password;
   const salt = uid2(16);
   const hash = SHA256(password + salt).toString(encBase64);

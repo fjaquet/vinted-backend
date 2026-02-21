@@ -20,19 +20,19 @@ const publishOffer = async (req, res) => {
     !req.body.product_description ||
     !req.body.product_price
   ) {
-    return res.status(400).json({ message: "missing parameters" });
+    return res.status(400).json({ message: "Missing parameters" });
   }
 
   if (req.body.product_description.length > 500) {
-    return res.status(400).json({ message: "description too long" });
+    return res.status(400).json({ message: "Description too long" });
   }
 
   if (req.body.product_name.length > 50) {
-    return res.status(400).json({ message: "tittle too long" });
+    return res.status(400).json({ message: "Title too long" });
   }
 
   if (Number(req.body.product_price) > 100000) {
-    return res.status(400).json({ message: "price too high" });
+    return res.status(400).json({ message: "Price too high" });
   }
 
   try {

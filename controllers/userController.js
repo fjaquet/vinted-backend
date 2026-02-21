@@ -40,7 +40,9 @@ const signup = async (req, res) => {
     if (error.message.includes("email_1 dup key")) {
       return res
         .status(400)
-        .json("There is already an account associated to this email");
+        .json({
+          message: "There is already an account associated to this email",
+        });
     } else {
       return res.status(500).json(error.message);
     }
