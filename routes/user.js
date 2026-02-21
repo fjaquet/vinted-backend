@@ -4,7 +4,7 @@ const fileUpload = require("express-fileupload");
 const router = express.Router();
 const { signup, login } = require("../controllers/userController");
 const payloadValidator = require("../middlewares/payloadValidator");
-const signupSchema = require("../validations/userValidation");
+const { signupSchema, loginSchema } = require("../validations/userValidation");
 
 router.post(
   "/signup",
@@ -12,6 +12,6 @@ router.post(
   payloadValidator(signupSchema, "body"),
   signup,
 );
-router.post("/login", login);
+router.post("/login", payloadValidator(loginSchema, "body"), login);
 
 module.exports = router;

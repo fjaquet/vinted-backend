@@ -7,4 +7,9 @@ const signupSchema = z.object({
   newsletter: z.boolean(),
 });
 
-module.exports = signupSchema;
+const loginSchema = z.object({
+  email: z.email(),
+  password: z.string(),
+});
+
+module.exports = { signupSchema, loginSchema };
