@@ -15,26 +15,6 @@ const Offer = require("../models/Offer");
 const cloudinaryParentFolder = "vinted/offers";
 
 const publishOffer = async (req, res, next) => {
-  if (
-    !req.body.product_name ||
-    !req.body.product_description ||
-    !req.body.product_price
-  ) {
-    return res.status(400).json({ message: "Missing parameters" });
-  }
-
-  if (req.body.product_description.length > 500) {
-    return res.status(400).json({ message: "Description too long" });
-  }
-
-  if (req.body.product_name.length > 50) {
-    return res.status(400).json({ message: "Title too long" });
-  }
-
-  if (Number(req.body.product_price) > 100000) {
-    return res.status(400).json({ message: "Price too high" });
-  }
-
   try {
     const data = {
       product_name: req.body.product_name,

@@ -9,8 +9,16 @@ const {
 } = require("../controllers/offerController");
 
 const isAuthenticated = require("../middlewares/isAuthenticated");
+const payloadValidator = require("../middlewares/payloadValidator");
+const publishOfferSchema = require("../validations/offerValidation");
 
-router.post("/publish", isAuthenticated, fileUpload(), publishOffer);
+router.post(
+  "/publish",
+  isAuthenticated,
+  fileUpload(),
+  payloadValidator(publishOfferSchema, "body"),
+  publishOffer,
+);
 router.put("/:id", isAuthenticated, fileUpload(), updateOffer);
 router.delete("/:id", isAuthenticated, deleteOffer);
 
