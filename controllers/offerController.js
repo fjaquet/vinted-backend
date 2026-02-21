@@ -8,6 +8,8 @@ const {
 
 const { uploadImage, deleteImage } = require("../services/cloudinaryService");
 
+const mongoose = require("mongoose");
+
 const Offer = require("../models/Offer");
 
 const cloudinaryParentFolder = "vinted/offers";
@@ -80,6 +82,10 @@ const publishOffer = async (req, res) => {
 
 const updateOffer = async (req, res) => {
   try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(400).json({ message: "Invalid Id format" });
+    }
+
     const offerUpdated = await updateOfferInDB(req.params.id, req.body);
     return res.status(200).json({
       _id: offerUpdated.id,
@@ -101,22 +107,23 @@ const updateOffer = async (req, res) => {
 };
 
 const deleteOffer = async (req, res) => {
-  const id = req.params.id;
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(400).json({ message: "Invalid Id format" });
+    }
+    const id = req.params.id;
 
-  const offer = await Offer.findById(id);
+    const offer = await Offer.findById(id);
 
-  if (offer) {
-    try {
+    if (offer) {
       await deleteImage(id, cloudinaryParentFolder);
       await deleteOfferInDB(id);
       return res.json({ message: "Offer deleted" });
-    } catch (error) {
-      return res.status(500).json(error.message);
+    } else {
+      return res.status(400).json({ message: "Offer not found" });
     }
-  } else {
-    return res
-      .status(400)
-      .json({ message: "the id of this offer does no exists" });
+  } catch (error) {
+    return res.status(500).json(error.message);
   }
 };
 
@@ -131,15 +138,15 @@ const getOffers = async (req, res) => {
 
 const getOfferById = async (req, res) => {
   try {
-    if (req.params.id) {
-      const offer = await findOfferByIdInDB(req.params.id);
-      if (offer) {
-        return res.json(offer);
-      } else {
-        return res.status(400).json({ message: "Offer not found" });
-      }
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(400).json({ message: "Invalid Id format" });
+    }
+
+    const offer = await findOfferByIdInDB(req.params.id);
+    if (offer) {
+      return res.json(offer);
     } else {
-      return res.status(400).json({ message: "Offer if missing" });
+      return res.status(400).json({ message: "Offer not found" });
     }
   } catch (error) {
     return res.status(500).json(error.message);
