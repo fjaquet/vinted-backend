@@ -62,10 +62,6 @@ const publishOffer = async (req, res, next) => {
 
 const updateOffer = async (req, res, next) => {
   try {
-    if (!mongoose.isValidObjectId(req.params.id)) {
-      return res.status(400).json({ message: "Invalid Id format" });
-    }
-
     const offerUpdated = await updateOfferInDB(req.params.id, req.body);
     return res.status(200).json({
       _id: offerUpdated.id,
@@ -88,9 +84,6 @@ const updateOffer = async (req, res, next) => {
 
 const deleteOffer = async (req, res, next) => {
   try {
-    if (!mongoose.isValidObjectId(req.params.id)) {
-      return res.status(400).json({ message: "Invalid Id format" });
-    }
     const id = req.params.id;
 
     const offer = await Offer.findById(id);
@@ -118,10 +111,6 @@ const getOffers = async (req, res, next) => {
 
 const getOfferById = async (req, res, next) => {
   try {
-    if (!mongoose.isValidObjectId(req.params.id)) {
-      return res.status(400).json({ message: "Invalid Id format" });
-    }
-
     const offer = await findOfferByIdInDB(req.params.id);
     if (offer) {
       return res.json(offer);

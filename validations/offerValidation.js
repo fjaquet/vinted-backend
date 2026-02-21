@@ -1,4 +1,5 @@
 const z = require("zod");
+const mongoose = require("mongoose");
 
 const publishOfferSchema = z.object({
   product_name: z.string().max(50),
@@ -11,4 +12,8 @@ const publishOfferSchema = z.object({
   city: z.string(),
 });
 
-module.exports = publishOfferSchema;
+const objectIdSchema = z.object({
+  id: z.custom((id) => mongoose.isValidObjectId(id), "Invalid Id format"),
+});
+
+module.exports = { publishOfferSchema, objectIdSchema };
