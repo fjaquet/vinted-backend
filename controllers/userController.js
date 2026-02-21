@@ -8,13 +8,6 @@ const { uploadImage } = require("../services/cloudinaryService");
 const cloudinaryParentFolder = "vinted/users";
 
 const signup = async (req, res, next) => {
-  if (!req.body.username) {
-    return res.status(400).json({ message: "Username must be filled" });
-  }
-  if (!req.body.email) {
-    return res.status(400).json({ message: "Email must be filled" });
-  }
-
   try {
     const newUser = await createUser(req.body);
     if (req.files.picture) {
