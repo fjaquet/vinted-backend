@@ -15,26 +15,6 @@ const Offer = require("../models/Offer");
 const cloudinaryParentFolder = "vinted/offers";
 
 const publishOffer = async (req, res, next) => {
-  if (
-    !req.body.product_name ||
-    !req.body.product_description ||
-    !req.body.product_price
-  ) {
-    return res.status(400).json({ message: "Missing parameters" });
-  }
-
-  if (req.body.product_description.length > 500) {
-    return res.status(400).json({ message: "Description too long" });
-  }
-
-  if (req.body.product_name.length > 50) {
-    return res.status(400).json({ message: "Title too long" });
-  }
-
-  if (Number(req.body.product_price) > 100000) {
-    return res.status(400).json({ message: "Price too high" });
-  }
-
   try {
     const data = {
       product_name: req.body.product_name,
@@ -82,10 +62,6 @@ const publishOffer = async (req, res, next) => {
 
 const updateOffer = async (req, res, next) => {
   try {
-    if (!mongoose.isValidObjectId(req.params.id)) {
-      return res.status(400).json({ message: "Invalid Id format" });
-    }
-
     const offerUpdated = await updateOfferInDB(req.params.id, req.body);
     return res.status(200).json({
       _id: offerUpdated.id,
@@ -108,9 +84,6 @@ const updateOffer = async (req, res, next) => {
 
 const deleteOffer = async (req, res, next) => {
   try {
-    if (!mongoose.isValidObjectId(req.params.id)) {
-      return res.status(400).json({ message: "Invalid Id format" });
-    }
     const id = req.params.id;
 
     const offer = await Offer.findById(id);
@@ -138,10 +111,6 @@ const getOffers = async (req, res, next) => {
 
 const getOfferById = async (req, res, next) => {
   try {
-    if (!mongoose.isValidObjectId(req.params.id)) {
-      return res.status(400).json({ message: "Invalid Id format" });
-    }
-
     const offer = await findOfferByIdInDB(req.params.id);
     if (offer) {
       return res.json(offer);
