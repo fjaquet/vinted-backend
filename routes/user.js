@@ -12,6 +12,7 @@ router.post(
   payloadValidator(signupSchema, "body"),
   signup,
 );
+
 router.post("/login", payloadValidator(loginSchema, "body"), login);
 
 module.exports = router;
