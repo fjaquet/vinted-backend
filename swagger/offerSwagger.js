@@ -58,9 +58,14 @@ offerRegistry.registerPath({
   method: "put",
   path: "/offer/{id}",
   summary: "Update specific offer",
+  security: [{ [bearerAuthName]: [] }],
   request: {
     params: objectIdSchema,
-    query: updateOfferSchema,
+    body: {
+      content: {
+        "application/json": { schema: updateOfferSchema },
+      },
+    },
   },
 
   responses: {

@@ -13,25 +13,25 @@ const getOffersSchema = z.object({
 });
 
 const publishOfferSchema = z.object({
-  product_name: z.string().max(50),
-  product_description: z.string().max(500),
+  product_name: z.string().min(1).max(50),
+  product_description: z.string().min(1).max(500),
   product_price: z.coerce.number().positive().lt(100000),
-  brand: z.string(),
-  size: z.string(),
-  condition: z.string(),
-  color: z.string(),
-  city: z.string(),
+  brand: z.string().min(1),
+  size: z.string().min(1),
+  condition: z.string().min(1),
+  color: z.string().min(1),
+  city: z.string().min(1),
 });
 
 const updateOfferSchema = z.object({
-  product_name: z.string().max(50).optional(),
-  product_description: z.string().max(500).optional(),
+  product_name: z.string().min(1).max(50).optional(),
+  product_description: z.string().min(1).max(500).optional(),
   product_price: z.coerce.number().positive().lt(100000).optional(),
-  brand: z.string().optional(),
-  size: z.string().optional(),
-  condition: z.string().optional(),
-  color: z.string().optional(),
-  city: z.string().optional(),
+  brand: z.string().min(1).optional(),
+  size: z.string().min(1).optional(),
+  condition: z.string().min(1).optional(),
+  color: z.string().min(1).optional(),
+  city: z.string().min(1).optional(),
 });
 
 const objectIdSchema = z.object({
