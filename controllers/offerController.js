@@ -8,8 +8,6 @@ const {
 
 const { uploadImage, deleteImage } = require("../services/cloudinaryService");
 
-const mongoose = require("mongoose");
-
 const Offer = require("../models/Offer");
 
 const cloudinaryParentFolder = "vinted/offers";
@@ -101,6 +99,13 @@ const deleteOffer = async (req, res, next) => {
 };
 
 const getOffers = async (req, res, next) => {
+  if (!req.queryValidated) {
+    return res.json({
+      count: 0,
+      offers: [],
+    });
+  }
+
   try {
     const result = await findOffersInDB(req.query);
     return res.json(result);
@@ -115,7 +120,7 @@ const getOfferById = async (req, res, next) => {
     if (offer) {
       return res.json(offer);
     } else {
-      return res.status(400).json({ message: "Offer not found" });
+      return res.json({ message: "Offer not found" });
     }
   } catch (error) {
     next(error);

@@ -2,7 +2,7 @@ const User = require("../models/User");
 
 const isAuthenticated = async (req, res, next) => {
   if (typeof req.headers.authorization !== "string") {
-    return res.status(401).json("Invalid token format");
+    return res.status(401).json({ message: "Invalid token format" });
   }
 
   const token = req.headers.authorization.replace("Bearer ", "");
@@ -12,7 +12,7 @@ const isAuthenticated = async (req, res, next) => {
   if (user) {
     req.user = user;
   } else {
-    return res.status(401).json("Unauthorized");
+    return res.status(401).json({ message: "Unauthorized" });
   }
 
   next();

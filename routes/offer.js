@@ -10,8 +10,11 @@ const {
 
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const payloadValidator = require("../middlewares/payloadValidator");
+const imageUploadValidator = require("../middlewares/imageUploadValidator");
+
 const {
   publishOfferSchema,
+  updateOfferSchema,
   objectIdSchema,
 } = require("../validations/offerValidation");
 
@@ -19,6 +22,7 @@ router.post(
   "/publish",
   isAuthenticated,
   fileUpload(),
+  imageUploadValidator,
   payloadValidator(publishOfferSchema, "body"),
   publishOffer,
 );
@@ -26,7 +30,9 @@ router.put(
   "/:id",
   isAuthenticated,
   fileUpload(),
+  imageUploadValidator,
   payloadValidator(objectIdSchema, "params"),
+  payloadValidator(updateOfferSchema, "query"),
   updateOffer,
 );
 router.delete(
