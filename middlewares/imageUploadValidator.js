@@ -1,19 +1,17 @@
-const imageUploadValidator = (req, res, next) => {
-  console.log(req.files);
-  console.log(Object.keys(req.files));
+const { fileTypeFromBuffer } = require("file-type");
+
+const imageUploadValidator = async (req, res, next) => {
   if (!Object.keys(req.files).includes("picture")) {
     return res
       .status(400)
       .json({ message: "Invalid key name for picture, must be 'picture'" });
   }
 
-  if (
-    !["image/jpeg", "image/png", "image/webp"].includes(
-      req.files.picture.mimetype,
-    )
-  ) {
-    return res.status(400).json({
-      message: "Format not supported for picture. Must be 'jpeg, png or webp'",
+  const type = await fileTypeFromBuffer(req.files.picture.data);
+
+  if (!type || !["image/jpeg", "image/png", "image/webp"].includes(type.mime)) {
+    return res.status(415).json({
+      message: "Invalid file type. Must be 'jpeg, png or webp'",
     });
   }
 
