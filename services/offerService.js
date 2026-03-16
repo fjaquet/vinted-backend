@@ -46,7 +46,7 @@ const findOffersInDB = async (data) => {
     }
   }
 
-  const limitResult = 2;
+  const limitResult = 50;
   const countDocuments = await Offer.countDocuments(filterFind);
 
   if (data.page >= 1) {
@@ -54,16 +54,20 @@ const findOffersInDB = async (data) => {
       .sort(sortMethod)
       .limit(limitResult)
       .skip((Number(data.page) - 1) * limitResult)
-      .select("product_name product_price")
-      .populate("owner", "account");
+      .select(
+        "product_name product_price product_details product_image.url owner",
+      )
+      .populate("owner", "account.username account.avatar.url");
 
     return { count: countDocuments, offers: offers };
   } else {
     const offers = await Offer.find(filterFind)
       .sort(sortMethod)
       .limit(limitResult)
-      .select("product_name product_price")
-      .populate("owner", "account");
+      .select(
+        "product_name product_price product_details product_image.url owner",
+      )
+      .populate("owner", "account.username account.avatar.url");
 
     return { count: countDocuments, offers: offers };
   }

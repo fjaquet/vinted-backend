@@ -15,9 +15,9 @@ const cloudinaryParentFolder = "vinted/offers";
 const publishOffer = async (req, res, next) => {
   try {
     const data = {
-      product_name: req.body.product_name,
-      product_description: req.body.product_description,
-      product_price: req.body.product_price,
+      product_name: req.body.title,
+      product_description: req.body.description,
+      product_price: req.body.price,
       product_details: [
         {
           MARQUE: req.body.brand,

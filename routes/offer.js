@@ -3,6 +3,7 @@ const fileUpload = require("express-fileupload");
 const router = express.Router();
 
 const {
+  getOfferById,
   publishOffer,
   updateOffer,
   deleteOffer,
@@ -17,6 +18,8 @@ const {
   updateOfferSchema,
   objectIdSchema,
 } = require("../validations/offerValidation");
+
+router.get("/:id", payloadValidator(objectIdSchema, "params"), getOfferById);
 
 router.post(
   "/publish",

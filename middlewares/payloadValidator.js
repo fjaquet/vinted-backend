@@ -25,7 +25,10 @@ const payloadValidator = (schema, payloadType, parseType) => {
       if (error instanceof z.ZodError) {
         return res.status(400).json({
           message: "Parameter validation failed",
-          details: z.treeifyError(error),
+          details: error.issues.map((issue) => ({
+            field: issue.path.join("."),
+            message: issue.message,
+          })),
         });
       }
       next(error);
